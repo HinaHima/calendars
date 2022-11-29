@@ -1,0 +1,577 @@
+openapi: 3.0.0
+# ---------------------------------------------------------------------------------------------------------------------------
+info:
+  title: Calendars Service API
+  version: v1.0
+  description: |
+    Here should be the description of the service.
+
+    ### Description of the service
+    Description example.
+
+    ### Authorization
+    Authorization example. 
+  contact:
+    name: developer
+    email: n7fie100@gmail.com    
+# ---------------------------------------------------------------------------------------------------------------------------
+servers:
+  - url: https://url.for.example/api/client/v1.0
+    description: Main production server
+# ---------------------------------------------------------------------------------------------------------------------------
+security:
+  - Auth: []
+# ---------------------------------------------------------------------------------------------------------------------------
+tags:
+  - name: Tag example 
+# ---------------------------------------------------------------------------------------------------------------------------
+paths:
+  # -------------------------------------------------------------------------------------------------------------------------
+  /events:    
+    # -----------------------------------------------------------------------------------------------------------------------
+    post:
+      tags:
+        - Tag example 
+      operationId: postEvents
+      summary: Creating events.
+      description: | 
+        Description example.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - events
+              properties:
+                delivery:
+                  type: object
+                  description: Information about the delivery.
+                  nullable: true
+                  properties:
+                    id:
+                      type: string
+                      nullable: true
+                      maxLength: 36
+                      example: "23few3e2e235-23few3e2e235-23few3e2e235"
+                      description: Description example.
+                    type:
+                      type: string
+                      nullable: true
+                      maxLength: 200
+                      example: "Type example"
+                      description: Description example.
+                    name:
+                      type: string
+                      nullable: true
+                      maxLength: 500
+                      description: Description example.                                          
+                events:
+                  type: array
+                  minimum: 1
+                  description: Description example.
+                  nullable: false                  
+                  items:
+                    type: object
+                    required: 
+                      - summary
+                      - start
+                      - end
+                    properties:
+                      id:
+                        type: string
+                        nullable: true
+                        maxLength: 36
+                        example: "23few3e2e235-23few3e2e235-23few3e2e235"
+                        description: Description example.
+                      summary:
+                        type: string
+                        nullable: false
+                        maxLength: 500
+                        example: "Summary example"
+                        description: Description example.
+                      location:
+                        type: string
+                        nullable: true
+                        maxLength: 500
+                        example: "Antananarivo, Madagascar"
+                        description: Description example.
+                      description:
+                        type: string
+                        nullable: true
+                        maxLength: 1000
+                        example: "description example"
+                        description: Description example.
+                      start:
+                        type: string
+                        nullable: false
+                        example: "2022-12-01T22:00:00"
+                        description: Description example.
+                      end:
+                        type: string
+                        nullable: false
+                        example: "2022-12-01T22:00:00"
+                        description: Description example.
+                      ttl:
+                        type: integer
+                        nullable: true
+                        example: 10
+                        description: Description example.
+            examples:
+              All fields:
+                value:
+                  "delivery": 
+                    {
+                      "id": "23few3e2e235-23few3e2e235-23few3e2e235",
+                      "type": "Type example",
+                      "name": "Name example"
+                    }
+                  "events": [
+                    {
+                      "id": "23few3e2e235",
+                      "summary": "Summary example",
+                      "location": "Antananarivo, Madagascar",
+                      "description": "Description example",
+                      "start": "2022-12-01T22:00:00",
+                      "end": "2022-12-01T23:00:00",
+                      "ttl": 10
+                    },
+                    {
+                      "id": "23few3e2e235",
+                      "summary": "summary example",
+                      "location": "Antananarivo, Madagascar",
+                      "description": "Description example",
+                      "start": "2022-12-02T22:00:00",
+                      "end": "2022-12-02T23:00:00",
+                      "ttl": 10
+                    }
+                  ]                  
+              Nulls:
+                value:
+                  "events": [
+                    {
+                      "id": null,
+                      "summary": "Summary example",
+                      "location": null,
+                      "description": null,
+                      "start": "2022-12-01T22:00:00",
+                      "end": "2022-12-01T23:00:00",
+                      "ttl": null
+                    },
+                    {
+                      "id": null,
+                      "summary": "summary example",
+                      "location": null,
+                      "description": null,
+                      "start": "2022-12-02T22:00:00",
+                      "end": "2022-12-02T23:00:00",
+                      "ttl": null
+                    }
+                  ]
+              Required:
+                value:
+                  "events": [
+                    {
+                      "summary": "Summary example",
+                      "start": "2022-12-01T22:00:00",
+                      "end": "2022-12-01T23:00:00"                      
+                    },
+                    {                      
+                      "summary": "Summary example",
+                      "start": "2022-12-02T22:00:00",
+                      "end": "2022-12-02T23:00:00"                     
+                    }
+                  ]      
+      responses:
+        '200':
+          description: Description example.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - state
+                  - events
+                properties:
+                  state:
+                    type: string
+                    nullable: false
+                    enum:
+                      - success
+                  events:
+                    type: array
+                    nullable: false
+                    description: Description example.
+                    minimum: 1
+                    required:                    
+                      - internal_id
+                      - ics
+                      - ics_short
+                      - google
+                      - google_short
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "23few3e2e235-23few3e2e235-23few3e2e235"
+                        internal_id:
+                          type: integer
+                          nullable: false
+                          description: Description example.
+                          example: 1
+                        ics:
+                          type: string
+                          nullable: false
+                          description: Description example.
+                          example: "https://host/i/1asd23"
+                        ics_short:
+                          type: string
+                          nullable: false
+                          description: Description example.
+                          example: "https://host_short/i/1asd23"  
+                        google:
+                          type: string
+                          nullable: false
+                          description: Description example.
+                          example: "https://host/g/1asd2s"
+                        google_short:
+                          type: string
+                          nullable: false
+                          description: Description example.
+                          example: "https://host_short/g/1asd2s" 
+                example:
+                  { 
+                    state: success,
+                    events: [
+                      {
+                        id: "23few3e2e235-23few3e2e235-23few3e2e235",
+                        internal_id: 1,
+                        ics: "https://host/i/1asd23",
+                        ics_short: "https://host_short/i/1asd23",
+                        google: "https://host/g/1asd2s",
+                        google_short: "https://host_short/g/1asd2s"
+                      }
+                    ]  
+                  }        
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '413':
+          $ref: '#/components/responses/413'
+        '500':
+          $ref: '#/components/responses/500'
+        default:
+          $ref: '#/components/responses/default'
+    # -----------------------------------------------------------------------------------------------------------------------
+    get:
+      tags:
+        - Example tag
+      operationId: getEvents
+      summary: Example summary.
+      description: Description example.
+      parameters:
+        - in: query
+          name: delivery_id
+          schema:
+            type: string
+            maxLength: 36
+          example: "Test id"
+          description: Description example.
+        - in: query
+          name: delivery_type
+          schema:
+            type: string
+            maxLength: 200
+          example: "Test type"
+          description: Description example.
+        - in: query 
+          name: delivery_name
+          schema: 
+            type: string
+            maxLength: 500
+          example: "Test name"
+          description: Description example.
+        - in: query
+          name: id
+          schema:  
+            type: string
+            maxLength: 36
+          example: "Test-event-id"
+          description: Description example.
+        - in: query
+          name: internal_id
+          schema:
+            type: integer
+            minimum: 1
+          example: 10
+          description: Description example.
+        - in: query
+          name: is_clicked
+          schema:
+            type: boolean
+          example: true
+          description: Description example.                     
+        - in: query
+          name: created_at_begin
+          schema: 
+            type: string
+            maxLength: 19
+            minLength: 19
+            format: date-time
+          example: "2022-12-01T22:00:00"
+          description: Description example.
+        - in: query
+          name: created_at_end
+          schema:  
+            type: string
+            maxLength: 19
+            minLength: 19
+            format: date-time
+          example: "2022-12-01T22:00:00"
+          description: Description example.
+        - in: query
+          name: fields
+          schema:  
+            type: string
+          example: "event_id, is_clicked"
+          description: |
+            Description example.
+        - in: query
+          name: offset
+          schema:  
+            type: integer
+            minimum: 0                
+          example: 1
+          description: |
+            Description example.
+        - in: query
+          name: limit
+          schema:  
+            type: integer
+            minimum: 1
+            example: 2
+          description: |
+            Description example.               
+        - in: query
+          name: page_num
+          schema:
+            type: integer
+            minimum: 1
+          example: 2
+          description: |
+            Description example.
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            minimum: 1
+          example: 2
+          description: |
+            Description example.             
+      responses:
+        '200':
+          description: Description example.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - events
+                properties:
+                  events:
+                    type: array
+                    nullable: true
+                    description: Description example.
+                    minimum: 0
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "23few3e2e235-23few3e2e235-23few3e2e235"
+                        internal_id:
+                          type: integer
+                          nullable: false
+                          description: Description example.
+                          example: 1
+                        delivery_id:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "23few3e2e235-23few3e2e235-23few3e2e235"
+                        delivery_type:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "Type example"
+                        delivery_name:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "name example"
+                        summary:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "summary example"
+                        location:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "Antananarivo, Madagascar"
+                        description:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "Description example"
+                        start:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "2022-12-01T22:00:00"
+                        end:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "2022-12-01T22:00:00"
+                        ttl:
+                          type: integer
+                          nullable: true
+                          description: Description example.
+                          example: 10
+                        ics_clicks:
+                          type: integer
+                          nullable: true
+                          description: Description example.
+                          example: 10000
+                        google_clicks:
+                          type: integer
+                          nullable: true
+                          description: Description example.
+                          example: 10000  
+                        created_at:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "2022-12-01T22:00:00"
+                        updated_at:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "2022-12-01T22:00:00"  
+                        ics:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "https://host/i/1asd2d"
+                        ics_short:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "https://host_short/i/1asd2d"
+                        google:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "https://host/g/1asd2d"
+                        google_short:
+                          type: string
+                          nullable: true
+                          description: Description example.
+                          example: "https://host_short/g/1asd2d"
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '413':
+          $ref: '#/components/responses/413'
+        '500':
+          $ref: '#/components/responses/500'
+        default:
+          $ref: '#/components/responses/default'
+# ---------------------------------------------------------------------------------------------------------------------------
+components:
+  # -------------------------------------------------------------------------------------------------------------------------
+  securitySchemes:
+    Auth:
+      type: apiKey
+      in: header
+      name: Auth
+      description: Description example.
+  # -------------------------------------------------------------------------------------------------------------------------
+  responses:    
+    '400':
+      description: Description example.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - state
+              - error
+            properties:
+              state:
+                type: string
+                nullable: false
+                description: Description example.
+                enum:
+                  - error
+              error:
+                type: object
+                required:
+                  - code
+                  - message
+                  - info
+                properties:
+                  code:
+                    type: integer
+                    format: int64
+                    minimum: 0
+                    nullable: false
+                    description: Description example.
+                    example: 1
+                  message:
+                    type: string
+                    nullable: false
+                    maxLength: 5000
+                    description: Description example.
+                    example: Example.
+                  info:
+                    type: string
+                    nullable: false
+                    maxLength: 5000
+                    description: Description example.
+                    example: Example.
+            example:
+              state: error
+              error:
+                code: 1
+                message: Example message.
+                info: Example info.
+    '401':
+      description: Description example.
+    '403':
+      description: Description example.
+    '404':
+      description: Description example.
+    '413':
+      description: Description example.
+    '500':
+      description: Description example.
+    default:
+      description: Description example.
